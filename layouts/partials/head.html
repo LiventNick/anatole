@@ -65,55 +65,116 @@
 
   {{ $markupHighlightStyle := resources.Get "css/markupHighlight.css" | resources.Minify | resources.Fingerprint }}
   <link
-    rel="stylesheet"
+    rel="preload"
+    as="style"
     href="{{ $markupHighlightStyle.RelPermalink }}"
     integrity="{{ $markupHighlightStyle.Data.Integrity }}"
     crossorigin="anonymous"
-    type="text/css"
+    onload="this.onload=null;this.rel='stylesheet'"
   />
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="{{ $markupHighlightStyle.RelPermalink }}"
+      integrity="{{ $markupHighlightStyle.Data.Integrity }}"
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  </noscript>
   {{ range .Site.Params.customCss }}
     {{ $minstyles := resources.Get . }}
     {{ $styles := $minstyles | resources.Minify | resources.Fingerprint }}
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
       href="{{ $styles.RelPermalink }}"
       integrity="{{ $styles.Data.Integrity }}"
       crossorigin="anonymous"
       media="screen"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="{{ $styles.RelPermalink }}"
+        integrity="{{ $styles.Data.Integrity }}"
+        crossorigin="anonymous"
+        media="screen"
+      />
+    </noscript>
   {{ end }}
   {{ $style := resources.Get "fontawesome/css/fontawesome.min.css" | resources.Fingerprint }}
   <link
-    rel="stylesheet"
+    rel="preload"
+    as="style"
     href="{{ $style.RelPermalink }}"
     integrity="{{ $style.Data.Integrity }}"
     crossorigin="anonymous"
-    type="text/css"
+    onload="this.onload=null;this.rel='stylesheet'"
   />
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="{{ $style.RelPermalink }}"
+      integrity="{{ $style.Data.Integrity }}"
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  </noscript>
   {{ $style := resources.Get "fontawesome/css/solid.min.css" | resources.Fingerprint }}
   <link
-    rel="stylesheet"
+    rel="preload"
+    as="style"
     href="{{ $style.RelPermalink }}"
     integrity="{{ $style.Data.Integrity }}"
     crossorigin="anonymous"
-    type="text/css"
+    onload="this.onload=null;this.rel='stylesheet'"
   />
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="{{ $style.RelPermalink }}"
+      integrity="{{ $style.Data.Integrity }}"
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  </noscript>
   {{ $style := resources.Get "fontawesome/css/regular.min.css" | resources.Fingerprint }}
   <link
-    rel="stylesheet"
+    rel="preload"
+    as="style"
     href="{{ $style.RelPermalink }}"
     integrity="{{ $style.Data.Integrity }}"
     crossorigin="anonymous"
-    type="text/css"
+    onload="this.onload=null;this.rel='stylesheet'"
   />
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="{{ $style.RelPermalink }}"
+      integrity="{{ $style.Data.Integrity }}"
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  </noscript>
   {{ $style := resources.Get "fontawesome/css/brands.min.css" | resources.Fingerprint }}
   <link
-    rel="stylesheet"
+    rel="preload"
+    as="style"
     href="{{ $style.RelPermalink }}"
     integrity="{{ $style.Data.Integrity }}"
     crossorigin="anonymous"
-    type="text/css"
+    onload="this.onload=null;this.rel='stylesheet'"
   />
+  <noscript>
+    <link
+      rel="stylesheet"
+      href="{{ $style.RelPermalink }}"
+      integrity="{{ $style.Data.Integrity }}"
+      crossorigin="anonymous"
+      type="text/css"
+    />
+  </noscript>
   {{ if .Params.redirectUrl }}
     {{ $style := resources.Get "css/spinner.css" | resources.Minify | resources.Fingerprint }}
     <link
@@ -161,6 +222,7 @@
     src="{{ $secureHeaderJS.RelPermalink }}"
     integrity="{{ $secureHeaderJS.Data.Integrity }}"
     crossorigin="anonymous"
+    defer
   ></script>
 
   {{ if not .Site.Params.disableThemeSwitcher }}
@@ -171,13 +233,14 @@
       src="{{ $secureThemeSwitcherJS.RelPermalink }}"
       integrity="{{ $secureThemeSwitcherJS.Data.Integrity }}"
       crossorigin="anonymous"
+      defer
     ></script>
   {{ end }}
 
   {{- $js := "" -}}
   {{- range .Site.Params.customJs -}}
     {{- if or (in . "http://") (in . "https://") -}}
-      <script src="{{ . | relURL }}"></script>
+      <script src="{{ . | relURL }}" defer></script>
     {{- else -}}
       {{- $customJS := resources.Get . -}}
       {{- if $customJS -}}
@@ -200,6 +263,7 @@
       src="{{ $secureJS.RelPermalink }}"
       integrity="{{ $secureJS.Data.Integrity }}"
       crossorigin="anonymous"
+      defer
     ></script>
   {{- end -}}
 
