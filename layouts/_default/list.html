@@ -6,7 +6,11 @@
       animated fadeInDown
     {{ end }}"
   >
-    {{ range .Data.Pages.GroupByDate "2006" }}
+    {{ $pages := .Data.Pages }}
+    {{ if .IsHome }}
+      {{ $pages = where .Data.Pages "Section" "in" .Site.Params.mainSections }}
+    {{ end }}
+    {{ range $pages.GroupByDate "2006" }}
       <div class="archive__heading">{{ .Key }}</div>
       {{ range .Pages }}
         <ul class="archive__list">
